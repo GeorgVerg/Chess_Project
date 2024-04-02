@@ -1,2 +1,4 @@
 # Chess_Project
-A chess or checker game (still deciding) using mostly java. 
+A chess game using mostly java.
+
+This is a school project of mine for the 10th grade.
