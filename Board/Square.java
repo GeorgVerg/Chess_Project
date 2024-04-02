@@ -8,6 +8,8 @@ public class Square extends JPanel
     private int row;
     private int col;
 
+    private Piece piece;
+
     Color lightColor = new Color(240, 217, 181);
     Color darkColor = new Color(181, 136, 99);
 
@@ -18,11 +20,33 @@ public class Square extends JPanel
         setBackground((row + col) % 2 == 0 ? lightColor : darkColor);
     }
 
-    public int getRow() {
+    public int getRow()
+    {
         return row;
     }
 
-    public int getCol() {
+    public int getCol()
+    {
         return col;
+    }
+
+    public Piece getPiece()
+    {
+        return piece;
+    }
+
+    public void setPiece(Piece piece)
+    {
+        this.piece = piece;
+    }
+
+    @Override
+    protected void paintComponent(Graphics g)
+    {
+        super.paintComponent(g);
+        if(piece != null)
+        {
+            piece.draw(g, 10, 10, getWidth() - 20, getHeight() - 20);
+        }
     }
 }

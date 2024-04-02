@@ -20,6 +20,15 @@ public class Chessboard extends JFrame {
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
                 Square square = new Square(row, col);
+                // ADDING PIECES TO SQUARES
+                if(row == 1 || row == 6)
+                {
+                    square.setPiece(new Piece(PieceType.PAWN, row == 1 ? Color.BLACK : Color.WHITE));
+                }
+                if((row == 0 || row == 7) && (col == 0 || col == 7))
+                {
+                    square.setPiece(new Piece(PieceType.ROOK, row == 0 ? Color.BLACK : Color.WHITE));
+                }
                 boardPanel.add(square);
             }
         }
