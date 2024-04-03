@@ -29,6 +29,10 @@ public class Chessboard extends JFrame {
                 {
                     square.setPiece(new Piece(PieceType.ROOK, row == 0 ? Color.BLACK : Color.WHITE));
                 }
+                if((row == 0 || row == 7) && (col == 2 || col == 5))
+                {
+                    square.setPiece(new Piece(PieceType.BISHOP, row == 0 ? Color.BLACK : Color.WHITE));
+                }
                 boardPanel.add(square);
             }
         }

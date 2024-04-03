@@ -24,6 +24,8 @@ public class Piece
             case ROOK:
                 drawRook(g, x, y, width, height);
                 break;
+            case BISHOP:
+                drawBishop(g, x, y, width, height);
 
             default:
                 break;
@@ -38,8 +40,16 @@ public class Piece
         g.fillPolygon(xPoints, yPoints, 3);
     }
 
-    void drawRook(Graphics g, int x, int y, int width, int height) {
+    void drawRook(Graphics g, int x, int y, int width, int height)
+    {
         g.fillRect(x + width / 4, y + height / 4, width / 2, height / 2);
         g.fillRect(x + width / 6, y + height / 2, width * 2 / 3, height / 4);
+    }
+
+    void drawBishop(Graphics g, int x, int y, int width, int height)
+    {
+        int[] xPoints = {x + width / 5, x + width * 2 / 4, x + width * 3 / 4};
+        int[] yPoints = {y + height / 4, y + height * 3 / 4, y + height / 4};
+        g.fillPolygon(xPoints, yPoints, 3);
     }
 }
