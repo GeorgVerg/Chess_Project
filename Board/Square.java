@@ -46,7 +46,7 @@ public class Square extends JPanel
         super.paintComponent(g);
         if(piece != null)
         {
-            piece.draw(g, 10, 10, getWidth() - 20, getHeight() - 20);
+            piece.draw(g, 5, 5, getWidth() - 10, getHeight() - 10);
         }
     }
 }
