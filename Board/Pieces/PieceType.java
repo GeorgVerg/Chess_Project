@@ -1,4 +1,4 @@
-package Chess_Project.Board;
+package Chess_Project.Board.Pieces;
 
 public enum PieceType
 {

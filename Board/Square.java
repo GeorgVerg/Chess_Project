@@ -1,4 +1,5 @@
 package Chess_Project.Board;
+import Chess_Project.Board.Pieces.Piece;
 
 import javax.swing.*;
 import java.awt.*;
