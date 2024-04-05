@@ -4,6 +4,9 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+
+import Chess_Project.Board.Square;
+
 import java.awt.image.BufferedImage;
 
 public class Pawn extends Piece
@@ -14,11 +17,14 @@ public class Pawn extends Piece
     BufferedImage image;
     Color color;
 
-    public Pawn(PieceType type, Color color)
+    Square square;
+
+    public Pawn(PieceType type, Color color, Square square)
     {
-        super(type, color);
+        super(type, color, square);
 
         this.color = color;
+        this.square = square;
 
         try 
         {

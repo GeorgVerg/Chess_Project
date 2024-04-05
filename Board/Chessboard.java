@@ -24,27 +24,27 @@ public class Chessboard extends JFrame {
                 // ADDING PIECES TO SQUARES
                 if(row == 1 || row == 6)
                 {
-                    square.setPiece(new Pawn(PieceType.PAWN, row == 1 ? Color.BLACK : Color.WHITE));
+                    square.setPiece(new Pawn(PieceType.PAWN, row == 1 ? Color.BLACK : Color.WHITE, square));
                 }
                 if((row == 0 || row == 7) && (col == 0 || col == 7))
                 {
-                    square.setPiece(new Rook(PieceType.ROOK, row == 0 ? Color.BLACK : Color.WHITE));
+                    square.setPiece(new Rook(PieceType.ROOK, row == 0 ? Color.BLACK : Color.WHITE, square));
                 }
                 if((row == 0 || row == 7) && (col == 2 || col == 5))
                 {
-                    square.setPiece(new Bishop(PieceType.BISHOP, row == 0 ? Color.BLACK : Color.WHITE));
+                    square.setPiece(new Bishop(PieceType.BISHOP, row == 0 ? Color.BLACK : Color.WHITE, square));
                 }
                 if((row == 0 || row == 7) && (col == 1 || col == 6))
                 {
-                    square.setPiece(new Knight(PieceType.KNIGHT, row == 0 ? Color.BLACK : Color.WHITE));
+                    square.setPiece(new Knight(PieceType.KNIGHT, row == 0 ? Color.BLACK : Color.WHITE, square));
                 }
                 if((row == 0 || row == 7) && col == 3)
                 {
-                    square.setPiece(new Queen(PieceType.QUEEN, row == 0 ? Color.BLACK : Color.WHITE));
+                    square.setPiece(new Queen(PieceType.QUEEN, row == 0 ? Color.BLACK : Color.WHITE, square));
                 }
                 if((row == 0 || row == 7) && col == 4)
                 {
-                    square.setPiece(new King(PieceType.KING, row == 0 ? Color.BLACK : Color.WHITE));
+                    square.setPiece(new King(PieceType.KING, row == 0 ? Color.BLACK : Color.WHITE, square));
                 }
                 boardPanel.add(square);
             }

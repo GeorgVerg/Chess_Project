@@ -4,6 +4,9 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+
+import Chess_Project.Board.Square;
+
 import java.awt.image.BufferedImage;
 
 
@@ -15,9 +18,9 @@ public class Queen extends Piece
     BufferedImage image;
     Color color;
 
-    public Queen(PieceType type, Color color)
+    public Queen(PieceType type, Color color, Square square)
     {
-        super(type, color);
+        super(type, color, square);
 
         this.color = color;
 

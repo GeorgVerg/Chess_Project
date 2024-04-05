@@ -8,6 +8,7 @@ public class Square extends JPanel
 {
     private int row;
     private int col;
+    private String id;
 
     private Piece piece;
 
@@ -17,8 +18,14 @@ public class Square extends JPanel
     public Square(int row, int col) {
         this.row = row;
         this.col = col;
+        this.id = "" + (char) ('a' + col) + (row + 1);
         setPreferredSize(new Dimension(Chessboard.SQUARE_SIZE, Chessboard.SQUARE_SIZE));
         setBackground((row + col) % 2 == 0 ? lightColor : darkColor);
+    }
+
+    public String getSquareId()
+    {
+        return id;
     }
 
     public int getRow()
