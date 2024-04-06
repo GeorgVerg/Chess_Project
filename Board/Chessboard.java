@@ -7,6 +7,8 @@ import java.awt.*;
 public class Chessboard extends JFrame {
     private static final int BOARD_SIZE = 8;
     public static final int SQUARE_SIZE = 80;
+
+    static Square[][] chessboardSquares = new Square[8][8];
     
 
     public Chessboard() {
@@ -46,6 +48,7 @@ public class Chessboard extends JFrame {
                 {
                     square.setPiece(new King(PieceType.KING, row == 0 ? Color.BLACK : Color.WHITE, square));
                 }
+                chessboardSquares[row][col] = square;
                 boardPanel.add(square);
             }
         }
@@ -55,5 +58,10 @@ public class Chessboard extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Chessboard::new);
+    }
+
+    public static Square[][] getChessboardSquares()
+    {
+        return chessboardSquares;
     }
 }

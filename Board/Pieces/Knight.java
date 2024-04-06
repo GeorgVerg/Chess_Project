@@ -3,6 +3,8 @@ package Chess_Project.Board.Pieces;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 
 import Chess_Project.Board.Square;
@@ -43,5 +45,11 @@ public class Knight extends Piece
         {
             System.exit(0);
         }
+    }
+
+    @Override
+    public ArrayList<String> getPossibleMoves(Square[][] board) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getPossibleMoves'");
     }
 }
