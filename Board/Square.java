@@ -136,7 +136,10 @@ public class Square extends JPanel
             g.fillOval(25, 25, getWidth() - 50, getHeight() - 50);
         } else if(!isPossibleMove && piece == null)
         {
-            setBackground((row + col) % 2 == 0 ? lightColor : darkColor);
+            // setBackground((row + col) % 2 == 0 ? lightColor : darkColor);
+            // MUST TEST
+            g.fillOval(25, 25, getWidth() - 50, getHeight() - 50);
+            g.setColor((row + col) % 2 == 0 ? lightColor : darkColor);
         }
     }
 }
