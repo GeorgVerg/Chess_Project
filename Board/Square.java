@@ -14,6 +14,8 @@ public class Square extends JPanel
     private String id;
     private boolean isPossibleMove;
     private boolean isSelected;
+    private Square square;
+    private static ArrayList<Square> selectedSquares = new ArrayList<>();
     private ArrayList<String> possibleMoves;
 
     private Piece piece;
@@ -24,8 +26,9 @@ public class Square extends JPanel
     public Square(int row, int col) {
         this.row = row;
         this.col = col;
-        this.id = "" + (char) ('a' + col) + (row + 1);
-        this.possibleMoves = getPossibleMoves();
+        this.id = "" + (char) ('a' + col) + (8 - row);
+        square = this;
+        this.possibleMoves = new ArrayList<String>();
         setPreferredSize(new Dimension(Chessboard.SQUARE_SIZE, Chessboard.SQUARE_SIZE));
         setBackground((row + col) % 2 == 0 ? lightColor : darkColor);
 
@@ -35,6 +38,9 @@ public class Square extends JPanel
             {
                 if(!isSelected)
                 {
+                    System.out.println("Square is selected: ");
+                    System.out.print(id);
+                    selectedSquares.add(square);
                     clearSelections();
                     isSelected = true;
                     getPossibleMoves();
@@ -80,9 +86,13 @@ public class Square extends JPanel
         repaint();
     }
 
-    public ArrayList<String>  getPossibleMoves()
+    public ArrayList<String> getPossibleMoves()
     {
-        if(piece == null) { return new ArrayList<>(); }
+        if(piece == null)
+        {
+            System.out.println("There is no piece connected ");
+            return new ArrayList<>();
+        }
         switch(piece.getType())
         {
             case BISHOP:
@@ -105,9 +115,13 @@ public class Square extends JPanel
 
     public void clearSelections()
     {
-        isSelected = false;
+        for(Square i : selectedSquares)
+        {
+            i.isSelected = false;
+            i.setPossibleMove(false);
+            i.repaint();
+        }
         possibleMoves.clear();
-        repaint();
     }
 
     @Override
@@ -117,6 +131,12 @@ public class Square extends JPanel
         if(piece != null)
         {
             piece.draw(g, 5, 5, getWidth() - 10, getHeight() - 10);
+        } else if(isPossibleMove)
+        {
+            g.fillOval(25, 25, getWidth() - 50, getHeight() - 50);
+        } else if(!isPossibleMove && piece == null)
+        {
+            setBackground((row + col) % 2 == 0 ? lightColor : darkColor);
         }
     }
 }
