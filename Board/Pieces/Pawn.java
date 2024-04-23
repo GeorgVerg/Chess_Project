@@ -49,9 +49,9 @@ public class Pawn extends Piece
         }
     }
 
-    public ArrayList<String> getPossibleMoves(Square[][] board)
+    public ArrayList<Square> getPossibleMoves(Square[][] board)
     {
-        ArrayList<String> possibleMoves = new ArrayList<>();
+        ArrayList<Square> possibleMoves = new ArrayList<>();
         int currentRow = square.getRow();
         int currentCol = square.getCol();
         int direction = (color == Color.WHITE) ? -1 : 1;
@@ -59,14 +59,14 @@ public class Pawn extends Piece
         if(board[currentRow + direction][currentCol].getPiece() == null)
         {
             board[currentRow + direction][currentCol].setPossibleMove(true);
-            possibleMoves.add(board[currentRow + direction][currentCol].getSquareId());
+            possibleMoves.add(board[currentRow + direction][currentCol].getSquare());
             
-            if((currentRow == 1 && color == Color.WHITE) || (currentCol == 6 && color == Color.BLACK))
+            if((currentRow == 6 && color == Color.WHITE) || (currentRow == 1 && color == Color.BLACK))
             {
                 if(board[currentRow + 2 * direction][currentCol].getPiece() == null)
                 {
                     board[currentRow + 2 * direction][currentCol].setPossibleMove(true);
-                    possibleMoves.add(board[currentRow + 2 * direction][currentCol].getSquareId());
+                    possibleMoves.add(board[currentRow + 2 * direction][currentCol].getSquare());
                 }
             }
         }
@@ -80,7 +80,7 @@ public class Pawn extends Piece
                 if(targetPiece != null && targetPiece.getColor() != color)
                 {
                     board[currentRow + direction][targetCol].setPossibleMove(true);
-                    possibleMoves.add(board[currentRow + direction][targetCol].getSquareId());
+                    possibleMoves.add(board[currentRow + direction][targetCol].getSquare());
                 }
             }
         }

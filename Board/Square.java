@@ -12,11 +12,12 @@ public class Square extends JPanel
     private int row;
     private int col;
     private String id;
-    private boolean isPossibleMove;
-    private boolean isSelected;
     private Square square;
-    private static ArrayList<Square> selectedSquares = new ArrayList<>();
-    private ArrayList<String> possibleMoves;
+
+    private boolean isSelected;
+    private boolean isPossibleMove;
+    private ArrayList<Square> possibleMoves;
+    // private static ArrayList<Square> possibleSquares = new ArrayList<>();
 
     private Piece piece;
 
@@ -28,7 +29,7 @@ public class Square extends JPanel
         this.col = col;
         this.id = "" + (char) ('a' + col) + (8 - row);
         square = this;
-        this.possibleMoves = new ArrayList<String>();
+        this.possibleMoves = new ArrayList<Square>();
         setPreferredSize(new Dimension(Chessboard.SQUARE_SIZE, Chessboard.SQUARE_SIZE));
         setBackground((row + col) % 2 == 0 ? lightColor : darkColor);
 
@@ -39,12 +40,12 @@ public class Square extends JPanel
                 if(!isSelected)
                 {
                     System.out.println("Square is selected: ");
-                    System.out.print(id);
-                    selectedSquares.add(square);
-                    clearSelections();
-                    isSelected = true;
-                    getPossibleMoves();
-                    repaint();
+                    System.out.print(piece != null ? piece.getType() : "There is no piece in the " + square.id + " square");
+                    // possibleSquares.add(square);
+                    square.clearSelections();
+                    square.isSelected = true;
+                    square.getPossibleMoves();
+                    // repaint();
                 }
             }
         });
@@ -83,10 +84,11 @@ public class Square extends JPanel
     public void setPossibleMove(boolean possibleMove)
     {
         isPossibleMove = possibleMove;
+        // if(possibleMove ? possibleMoves.add(square) : possibleMoves.remove(square));
         repaint();
     }
 
-    public ArrayList<String> getPossibleMoves()
+    public ArrayList<Square> getPossibleMoves()
     {
         if(piece == null)
         {
@@ -115,12 +117,13 @@ public class Square extends JPanel
 
     public void clearSelections()
     {
-        for(Square i : selectedSquares)
+        if(possibleMoves == null) { return; }
+        for(Square i : possibleMoves)
         {
             i.isSelected = false;
             i.setPossibleMove(false);
-            i.repaint();
         }
+        repaint();
         possibleMoves.clear();
     }
 
@@ -134,12 +137,12 @@ public class Square extends JPanel
         } else if(isPossibleMove)
         {
             g.fillOval(25, 25, getWidth() - 50, getHeight() - 50);
-        } else if(!isPossibleMove && piece == null)
+        } else if(!isPossibleMove)
         {
             // setBackground((row + col) % 2 == 0 ? lightColor : darkColor);
             // MUST TEST
+            g.setColor((row + col) % 2 == 0  ? lightColor : darkColor);
             g.fillOval(25, 25, getWidth() - 50, getHeight() - 50);
-            g.setColor((row + col) % 2 == 0 ? lightColor : darkColor);
         }
     }
 }
