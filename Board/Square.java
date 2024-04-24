@@ -16,20 +16,21 @@ public class Square extends JPanel
 
     private boolean isSelected;
     private boolean isPossibleMove;
-    private ArrayList<Square> possibleMoves;
-    // private static ArrayList<Square> possibleSquares = new ArrayList<>();
+    private Chessboard chessboard;
 
     private Piece piece;
 
-    Color lightColor = new Color(240, 217, 181);
-    Color darkColor = new Color(181, 136, 99);
+    private static final Color lightColor = new Color(240, 217, 181);
+    private static final Color darkColor = new Color(181, 136, 99);
+    private static final Color highlightColor = new Color(162, 209, 73);
 
-    public Square(int row, int col) {
+    public Square(Chessboard board, int row, int col)
+    {
+        this.chessboard = board;
         this.row = row;
         this.col = col;
         this.id = "" + (char) ('a' + col) + (8 - row);
         square = this;
-        this.possibleMoves = new ArrayList<Square>();
         setPreferredSize(new Dimension(Chessboard.SQUARE_SIZE, Chessboard.SQUARE_SIZE));
         setBackground((row + col) % 2 == 0 ? lightColor : darkColor);
 
@@ -37,18 +38,23 @@ public class Square extends JPanel
             @Override
             public void mouseClicked(MouseEvent e)
             {
-                if(!isSelected)
-                {
-                    System.out.println("Square is selected: ");
-                    System.out.print(piece != null ? piece.getType() : "There is no piece in the " + square.id + " square");
-                    // possibleSquares.add(square);
-                    square.clearSelections();
-                    square.isSelected = true;
-                    square.getPossibleMoves();
-                    // repaint();
-                }
+                handleSquareSelection();
             }
         });
+    }
+
+    private void handleSquareSelection()
+    {
+        if(chessboard.getSelectedSquare() != null)
+        {
+            chessboard.clearPossibleMoves();
+        }
+        chessboard.setSelectedSquare(this);
+        if(piece != null)
+        {
+            chessboard.showPossibleMoves(piece.getPossibleMoves(chessboard.getChessboardSquares()));
+        }
+        repaint();
     }
 
     public String getSquareId()
@@ -81,68 +87,60 @@ public class Square extends JPanel
         this.piece = piece;
     }
 
+    public void setSelected(boolean isSelected)
+    {
+        this.isSelected = isSelected;
+        repaint();
+    }
+
     public void setPossibleMove(boolean possibleMove)
     {
         isPossibleMove = possibleMove;
-        // if(possibleMove ? possibleMoves.add(square) : possibleMoves.remove(square));
         repaint();
     }
 
-    public ArrayList<Square> getPossibleMoves()
-    {
-        if(piece == null)
-        {
-            System.out.println("There is no piece connected ");
-            return new ArrayList<>();
-        }
-        switch(piece.getType())
-        {
-            case BISHOP:
-                break;
-            case KING:
-                break;
-            case KNIGHT:
-                break;
-            case PAWN:
-                return piece.getPossibleMoves(Chessboard.getChessboardSquares());
-            case QUEEN:
-                break;
-            case ROOK:
-                break;
-            default:
-                break;
-        }
-        return possibleMoves;
-    }
-
-    public void clearSelections()
-    {
-        if(possibleMoves == null) { return; }
-        for(Square i : possibleMoves)
-        {
-            i.isSelected = false;
-            i.setPossibleMove(false);
-        }
-        repaint();
-        possibleMoves.clear();
-    }
+    // public ArrayList<Square> getPossibleMoves()
+    // {
+    //     if(piece == null)
+    //     {
+    //         System.out.println("There is no piece connected ");
+    //         return new ArrayList<>();
+    //     }
+    //     switch(piece.getType())
+    //     {
+    //         case BISHOP:
+    //             break;
+    //         case KING:
+    //             break;
+    //         case KNIGHT:
+    //             break;
+    //         case PAWN:
+    //             return piece.getPossibleMoves(Chessboard.getChessboardSquares());
+    //         case QUEEN:
+    //             break;
+    //         case ROOK:
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    //     return possibleMoves;
+    // }
 
     @Override
     protected void paintComponent(Graphics g)
     {
         super.paintComponent(g);
+        setBackground((row + col) % 2 == 0 ? lightColor : darkColor);
+
         if(piece != null)
         {
             piece.draw(g, 5, 5, getWidth() - 10, getHeight() - 10);
-        } else if(isPossibleMove)
+        }
+
+        if(isSelected || isPossibleMove)
         {
-            g.fillOval(25, 25, getWidth() - 50, getHeight() - 50);
-        } else if(!isPossibleMove)
-        {
-            // setBackground((row + col) % 2 == 0 ? lightColor : darkColor);
-            // MUST TEST
-            g.setColor((row + col) % 2 == 0  ? lightColor : darkColor);
-            g.fillOval(25, 25, getWidth() - 50, getHeight() - 50);
+            g.setColor(highlightColor);
+            g.fillRect(0, 0, getWidth(), getHeight());
         }
     }
 }
