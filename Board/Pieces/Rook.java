@@ -51,47 +51,18 @@ public class Rook extends Piece
     }
 
     @Override
-    public ArrayList<String> getPossibleMoves(Square[][] board)
+    public ArrayList<Point> getPossibleMoves(Square[][] board)
     {
-        ArrayList<Square> possibleMoves = new ArrayList<>();
-        int currentRow = square.getRow();
-        int currentCol = square.getCol();
-        int direction = (color == Color.WHITE) ? -1 : 1;
+        ArrayList<Point> moves = new ArrayList<>();
+        int row = square.getRow();
+        int col = square.getCol();
 
-        if(board[currentRow + direction][currentCol].getPiece() == null)
+        // UP
+        for(int i = row - 1; i >= 0; i--)
         {
-            board[currentRow + direction][currentCol].setPossibleMove(true);
-            possibleMoves.add(board[currentRow + direction][currentCol].getSquare());
-            
-            if((currentRow == 6 && color == Color.WHITE) || (currentRow == 1 && color == Color.BLACK))
-            {
-                if(board[currentRow + 2 * direction][currentCol].getPiece() == null)
-                {
-                    board[currentRow + 2 * direction][currentCol].setPossibleMove(true);
-                    possibleMoves.add(board[currentRow + 2 * direction][currentCol].getSquare());
-                }
-            }
+            if(!addMoveIfPossible(board, moves, i, col)) break;
         }
 
-        for(int colOffset : new int[]{-1, 1})
-        {
-            int targetCol = currentCol + colOffset;
-            if(targetCol >= 0 && targetCol < 8)
-            {
-                Piece targetPiece = board[currentRow + direction][targetCol].getPiece();
-                if(targetPiece != null && targetPiece.getColor() != color)
-                {
-                    board[currentRow + direction][targetCol].setPossibleMove(true);
-                    possibleMoves.add(board[currentRow + direction][targetCol].getSquare());
-                }
-            }
-        }
-
-        if((currentRow == 6 && color == Color.BLACK) || (currentRow == 1 && color == Color.WHITE))
-        {
-            new LaunchPage(color, board[currentRow + direction][currentCol].getSquare(), square);
-        }
-
-        return possibleMoves;
+        // MUST CONTINUE WITH OTHER DIRECTIONS
     }
 }

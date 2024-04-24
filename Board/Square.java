@@ -5,14 +5,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
 public class Square extends JPanel
 {
     private int row;
     private int col;
     private String id;
-    private Square square;
 
     private boolean isSelected;
     private boolean isPossibleMove;
@@ -30,7 +28,6 @@ public class Square extends JPanel
         this.row = row;
         this.col = col;
         this.id = "" + (char) ('a' + col) + (8 - row);
-        square = this;
         setPreferredSize(new Dimension(Chessboard.SQUARE_SIZE, Chessboard.SQUARE_SIZE));
         setBackground((row + col) % 2 == 0 ? lightColor : darkColor);
 
@@ -98,33 +95,6 @@ public class Square extends JPanel
         isPossibleMove = possibleMove;
         repaint();
     }
-
-    // public ArrayList<Square> getPossibleMoves()
-    // {
-    //     if(piece == null)
-    //     {
-    //         System.out.println("There is no piece connected ");
-    //         return new ArrayList<>();
-    //     }
-    //     switch(piece.getType())
-    //     {
-    //         case BISHOP:
-    //             break;
-    //         case KING:
-    //             break;
-    //         case KNIGHT:
-    //             break;
-    //         case PAWN:
-    //             return piece.getPossibleMoves(Chessboard.getChessboardSquares());
-    //         case QUEEN:
-    //             break;
-    //         case ROOK:
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    //     return possibleMoves;
-    // }
 
     @Override
     protected void paintComponent(Graphics g)
