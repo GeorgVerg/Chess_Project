@@ -48,7 +48,7 @@ public class Queen extends Piece
     }
 
     @Override
-    public ArrayList<String> getPossibleMoves(Square[][] board) {
+    public ArrayList<Point> getPossibleMoves(Square[][] board) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getPossibleMoves'");
     }

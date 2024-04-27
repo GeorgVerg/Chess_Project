@@ -57,12 +57,46 @@ public class Rook extends Piece
         int row = square.getRow();
         int col = square.getCol();
 
-        // UP
-        for(int i = row - 1; i >= 0; i--)
+        // Move up
+        for (int i = row - 1; i >= 0; i--)
         {
-            if(!addMoveIfPossible(board, moves, i, col)) break;
+            if (!addMoveIfPossible(board, moves, i, col)) break;
         }
 
-        // MUST CONTINUE WITH OTHER DIRECTIONS
+        // Move down
+        for (int i = row + 1; i < 8; i++)
+        {
+            if (!addMoveIfPossible(board, moves, i, col)) break;
+        }
+
+        // Move left
+        for (int j = col - 1; j >= 0; j--)
+        {
+            if (!addMoveIfPossible(board, moves, row, j)) break;
+        }
+
+        // Move right
+        for (int j = col + 1; j < 8; j++)
+        {
+            if (!addMoveIfPossible(board, moves, row, j)) break;
+        }
+
+        return moves;
+    }
+
+    private boolean addMoveIfPossible(Square[][] board, ArrayList<Point> moves, int newRow, int newCol)
+    {
+        if(board[newRow][newCol].getPiece() == null)
+        {
+            moves.add(new Point(newRow, newCol));
+            return true;
+        } else
+        {
+            if(board[newRow][newCol].getPiece().getColor() != this.color)
+            {
+                moves.add(new Point(newRow, newCol));
+            }
+            return false;
+        }
     }
 }
