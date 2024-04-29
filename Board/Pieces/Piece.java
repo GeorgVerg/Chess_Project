@@ -39,6 +39,18 @@ abstract public class Piece
         g.dispose();
     }
 
+    public boolean addMoveIfPossible(Square[][] board, ArrayList<Point> moves, int newRow, int newCol) {
+        if (board[newRow][newCol].getPiece() == null) {
+            moves.add(new Point(newRow, newCol));
+            return true; // Continue in this direction
+        } else {
+            if (board[newRow][newCol].getPiece().getColor() != this.color) {
+                moves.add(new Point(newRow, newCol)); // Capture possible
+            }
+            return false; // Stop - cannot move past this piece
+        }
+    }
+
     abstract public void draw(Graphics g, int x, int y, int width, int height);
 
     abstract public ArrayList<Point> getPossibleMoves(Square[][] board);

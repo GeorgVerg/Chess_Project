@@ -20,11 +20,14 @@ public class Bishop extends Piece
     BufferedImage image;
     Color color;
 
+    Square square;
+
     public Bishop(PieceType type, Color color, Square square)
     {
         super(type, color, square);
 
         this.color = color;
+        this.square = square;
 
         try 
         {
@@ -50,7 +53,30 @@ public class Bishop extends Piece
     @Override
     public ArrayList<Point> getPossibleMoves(Square[][] board)
     {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPossibleMoves'");
+        ArrayList<Point> moves = new ArrayList<>();
+        int row = square.getRow();
+        int col = square.getCol();
+
+        // Move diagonally: up-left
+        for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+            if (!super.addMoveIfPossible(board, moves, i, j)) break;
+        }
+
+        // Move diagonally: up-right
+        for (int i = row - 1, j = col + 1; i >= 0 && j < 8; i--, j++) {
+            if (!super.addMoveIfPossible(board, moves, i, j)) break;
+        }
+
+        // Move diagonally: down-left
+        for (int i = row + 1, j = col - 1; i < 8 && j >= 0; i++, j--) {
+            if (!super.addMoveIfPossible(board, moves, i, j)) break;
+        }
+
+        // Move diagonally: down-right
+        for (int i = row + 1, j = col + 1; i < 8 && j < 8; i++, j++) {
+            if (!super.addMoveIfPossible(board, moves, i, j)) break;
+        }
+
+        return moves;
     }
 }
