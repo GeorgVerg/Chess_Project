@@ -70,7 +70,7 @@ public class Chessboard extends JFrame {
                 // PIECE AT E4
                 if(row == 4 && col == 4)
                 {
-                    square.setPiece(new Bishop(PieceType.BISHOP, row == 0 ? Color.BLACK : Color.WHITE, square));
+                    square.setPiece(new Queen(PieceType.QUEEN, row == 0 ? Color.BLACK : Color.WHITE, square));
                 }
                 // chessboardSquares[row][col] = square;
                 // boardPanel.add(square);
