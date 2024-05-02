@@ -20,11 +20,14 @@ public class Knight extends Piece
     BufferedImage image;
     Color color;
 
+    Square square;
+
     public Knight(PieceType type, Color color, Square square)
     {
         super(type, color, square);
 
         this.color = color;
+        this.square = square;
 
         try 
         {
@@ -48,8 +51,42 @@ public class Knight extends Piece
     }
 
     @Override
-    public ArrayList<Point> getPossibleMoves(Square[][] board) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPossibleMoves'");
+    public ArrayList<Point> getPossibleMoves(Square[][] board)
+    {
+        ArrayList<Point> moves = new ArrayList<>();
+        int row = square.getRow();
+        int col = square.getCol();
+
+        // All potential moves of a Knight
+        int[][] potentialMoves = {
+            {row - 2, col + 1}, {row - 1, col + 2}, {row + 1, col + 2}, {row + 2, col + 1},
+            {row + 2, col - 1}, {row + 1, col - 2}, {row - 1, col - 2}, {row - 2, col - 1}
+        };
+
+        for (int[] move : potentialMoves) {
+            if (isValidMove(board, move[0], move[1])) {
+                moves.add(new Point(move[0], move[1]));
+            }
+        }
+
+        return moves;
+    }
+    
+    private boolean isValidMove(Square[][] board, int newRow, int newCol) {
+        // Check if the move is within the board boundaries
+        if (newRow >= 0 && newRow < board.length && newCol >= 0 && newCol < board[0].length) {
+            Square targetSquare = board[newRow][newCol];
+            // Check if the target square is empty or contains an opponent's piece
+            if (targetSquare.getPiece() == null || targetSquare.getPiece().getColor() != this.color) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    @Override
+    public ArrayList<Point> getCaptureMoves(Square[][] board)
+    {
+        return getPossibleMoves(board);
     }
 }

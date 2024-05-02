@@ -103,4 +103,10 @@ public class Queen extends Piece
 
         return moves;
     }
+
+    @Override
+    public ArrayList<Point> getCaptureMoves(Square[][] board)
+    {
+        return getPossibleMoves(board);
+    }    
 }

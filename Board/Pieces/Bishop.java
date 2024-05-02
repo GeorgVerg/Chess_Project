@@ -79,4 +79,11 @@ public class Bishop extends Piece
 
         return moves;
     }
+
+
+    @Override
+    public ArrayList<Point> getCaptureMoves(Square[][] board)
+    {
+        return getPossibleMoves(board);
+    }
 }

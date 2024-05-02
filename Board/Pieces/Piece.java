@@ -54,4 +54,6 @@ abstract public class Piece
     abstract public void draw(Graphics g, int x, int y, int width, int height);
 
     abstract public ArrayList<Point> getPossibleMoves(Square[][] board);
+    
+    abstract public ArrayList<Point> getCaptureMoves(Square[][] board);
 }

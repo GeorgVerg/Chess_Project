@@ -20,11 +20,14 @@ public class King extends Piece
     BufferedImage image;
     Color color;
 
+    Square square;
+
     public King(PieceType type, Color color, Square square)
     {
         super(type, color, square);
 
         this.color = color;
+        this.square = square;
 
         try 
         {
@@ -48,8 +51,72 @@ public class King extends Piece
     }
 
     @Override
-    public ArrayList<Point> getPossibleMoves(Square[][] board) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPossibleMoves'");
+    public ArrayList<Point> getPossibleMoves(Square[][] board)
+    {
+        ArrayList<Point> moves = new ArrayList<>();
+        int row = square.getRow();
+        int col = square.getCol();
+
+        // Directions for King
+        int[][] directions = {
+            { -1, -1 }, { -1, 0 }, { -1, 1 }, // Diagonal / up
+            { 0, -1 }, { 0, 1 },              // Straight
+            { 1, -1 }, { 1, 0 }, { 1, 1 }     // Diagonal / down
+        };
+
+        for (int[] direction : directions) {
+            int newRow = row + direction[0];
+            int newCol = col + direction[1];
+            if (isValidMove(board, newRow, newCol) && !isSquareUnderAttack(board, newRow, newCol, color))
+            {
+                moves.add(new Point(newRow, newCol));
+            }
+        }
+
+        return moves;
+    }
+
+    private boolean isValidMove(Square[][] board, int newRow, int newCol)
+    {
+        if (newRow >= 0 && newRow < board.length && newCol >= 0 && newCol < board[0].length)
+        {
+            Square targetSquare = board[newRow][newCol];
+            if(targetSquare.getPiece() == null || targetSquare.getPiece().getColor() != this.color)
+            {
+                return isSquareUnderAttack(board, newRow, newCol, this.color) ? false : true;
+            }
+            // return targetSquare.getPiece() == null || targetSquare.getPiece().getColor() != this.color;
+        }
+        return false;
+    }
+
+    private boolean isSquareUnderAttack(Square[][] board, int row, int col, Color kingColor)
+    {
+        // Check for attacks from all directions and pieces (this is a simplified and not fully accurate model)
+        for (Square[] squareRow : board)
+        {
+            for (Square square : squareRow)
+            {
+                Piece piece = square.getPiece();
+                if (piece != null && piece.getColor() != kingColor)
+                {
+                    ArrayList<Point> attacks = piece.getCaptureMoves(board);
+                    for (Point attack : attacks)
+                    {
+                        if (attack.x == row && attack.y == col)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public ArrayList<Point> getCaptureMoves(Square[][] board)
+    {
+        return getPossibleMoves(board);
     }
 }

@@ -14,6 +14,7 @@ public class Square extends JPanel
 
     private boolean isSelected;
     private boolean isPossibleMove;
+    private boolean isCaptureMove;
     private Chessboard chessboard;
 
     private Piece piece;
@@ -21,6 +22,7 @@ public class Square extends JPanel
     private static final Color lightColor = new Color(240, 217, 181);
     private static final Color darkColor = new Color(181, 136, 99);
     private static final Color highlightColor = new Color(162, 209, 73);
+    private static final Color captureHighlightColor = new Color(209, 162, 73);
 
     public Square(Chessboard board, int row, int col)
     {
@@ -50,6 +52,7 @@ public class Square extends JPanel
         if(piece != null)
         {
             chessboard.showPossibleMoves(piece.getPossibleMoves(chessboard.getChessboardSquares()));
+            chessboard.showCaptureMoves(piece.getCaptureMoves(chessboard.getChessboardSquares()));
         }
         repaint();
     }
@@ -96,6 +99,12 @@ public class Square extends JPanel
         repaint();
     }
 
+    public void setCaptureMove(boolean captureMove)
+    {
+        isCaptureMove = captureMove;
+        repaint();
+    }
+
     @Override
     protected void paintComponent(Graphics g)
     {
@@ -107,9 +116,15 @@ public class Square extends JPanel
             piece.draw(g, 5, 5, getWidth() - 10, getHeight() - 10);
         }
 
-        if(isSelected || isPossibleMove)
+        if(isSelected || isPossibleMove && piece == null)
         {
             g.setColor(highlightColor);
+            g.fillRect(0, 0, getWidth(), getHeight());
+        }
+
+        if(isCaptureMove && piece != null)
+        {
+            g.setColor(captureHighlightColor);
             g.fillRect(0, 0, getWidth(), getHeight());
         }
     }

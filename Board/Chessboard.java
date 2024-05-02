@@ -66,14 +66,6 @@ public class Chessboard extends JFrame {
                 {
                     square.setPiece(new King(PieceType.KING, row == 0 ? Color.BLACK : Color.WHITE, square));
                 }
-
-                // PIECE AT E4
-                if(row == 4 && col == 4)
-                {
-                    square.setPiece(new Queen(PieceType.QUEEN, row == 0 ? Color.BLACK : Color.WHITE, square));
-                }
-                // chessboardSquares[row][col] = square;
-                // boardPanel.add(square);
             }
         }
     }
@@ -109,6 +101,7 @@ public class Chessboard extends JFrame {
                 for(Square s : row)
                 {
                     s.setPossibleMove(false);
+                    s.setCaptureMove(false);
                 }
             }
         }
@@ -123,6 +116,19 @@ public class Chessboard extends JFrame {
             if(row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE)
             {
                 chessboardSquares[row][col].setPossibleMove(true);
+            }
+        }
+    }
+
+    public void showCaptureMoves(java.util.List<Point> captureMoves)
+    {
+        for(Point move : captureMoves)
+        {
+            int row = move.x;
+            int col = move.y;
+            if(row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE)
+            {
+                chessboardSquares[row][col].setCaptureMove(true);
             }
         }
     }
