@@ -102,6 +102,7 @@ public class Square extends JPanel
     public void setCaptureMove(boolean captureMove)
     {
         isCaptureMove = captureMove;
+        if(isCaptureMove && isPossibleMove) { isCaptureMove = false; }
         repaint();
     }
 
@@ -111,10 +112,10 @@ public class Square extends JPanel
         super.paintComponent(g);
         setBackground((row + col) % 2 == 0 ? lightColor : darkColor);
 
-        if(piece != null)
-        {
-            piece.draw(g, 5, 5, getWidth() - 10, getHeight() - 10);
-        }
+        // if(piece != null)
+        // {
+        //     piece.draw(g, 5, 5, getWidth() - 10, getHeight() - 10);
+        // }
 
         if(isSelected || isPossibleMove && piece == null)
         {
@@ -126,6 +127,11 @@ public class Square extends JPanel
         {
             g.setColor(captureHighlightColor);
             g.fillRect(0, 0, getWidth(), getHeight());
+        }
+
+        if(piece != null)
+        {
+            piece.draw(g, 5, 5, getWidth() - 10, getHeight() - 10);
         }
     }
 }
