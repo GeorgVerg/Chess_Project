@@ -71,20 +71,6 @@ public class Pawn extends Piece
             }
         }
 
-        // for(int colOffset : new int[]{-1, 1})
-        // {
-        //     int targetCol = currentCol + colOffset;
-        //     if(targetCol >= 0 && targetCol < 8)
-        //     {
-        //         Piece targetPiece = board[currentRow + direction][targetCol].getPiece();
-        //         if(targetPiece != null && targetPiece.getColor() != color)
-        //         {
-        //             board[currentRow + direction][targetCol].setPossibleMove(true);
-        //             possibleMoves.add(new Point(currentRow + direction,targetCol));
-        //         }
-        //     }
-        // }
-
         if((currentRow == 6 && color == Color.BLACK) || (currentRow == 1 && color == Color.WHITE))
         {
             new LaunchPage(color, board[currentRow + direction][currentCol].getSquare(), square);
@@ -113,7 +99,13 @@ public class Pawn extends Piece
                 }
             }
         }
-        
+
         return captureMoves;
+    }
+
+    @Override
+    public void updateSquareLocation()
+    {
+        this.square = super.getSquare();
     }
 }

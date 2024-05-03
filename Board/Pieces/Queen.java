@@ -108,5 +108,11 @@ public class Queen extends Piece
     public ArrayList<Point> getCaptureMoves(Square[][] board)
     {
         return getPossibleMoves(board);
-    }    
+    }
+
+    @Override
+    public void updateSquareLocation()
+    {
+        this.square = super.getSquare();
+    }
 }

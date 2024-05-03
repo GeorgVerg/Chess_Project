@@ -34,6 +34,11 @@ abstract public class Piece
         return square;
     }
 
+    public void movePiece(Square newSquare)
+    {
+        square = newSquare;
+    }
+
     public void resetDraw(Graphics g, int x, int y, int width, int height)
     {
         g.dispose();
@@ -56,4 +61,6 @@ abstract public class Piece
     abstract public ArrayList<Point> getPossibleMoves(Square[][] board);
     
     abstract public ArrayList<Point> getCaptureMoves(Square[][] board);
+
+    abstract public void updateSquareLocation();
 }

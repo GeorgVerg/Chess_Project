@@ -21,8 +21,8 @@ public class Square extends JPanel
 
     private static final Color lightColor = new Color(240, 217, 181);
     private static final Color darkColor = new Color(181, 136, 99);
-    private static final Color highlightColor = new Color(162, 209, 73);
-    private static final Color captureHighlightColor = new Color(209, 162, 73);
+    private static final Color highlightColor = new Color(162, 209, 73, 192);
+    private static final Color captureHighlightColor = new Color(209, 162, 73, 192);
 
     public Square(Chessboard board, int row, int col)
     {
@@ -46,6 +46,13 @@ public class Square extends JPanel
     {
         if(chessboard.getSelectedSquare() != null)
         {
+            if(chessboard.getSelectedSquare().getPiece() != null)
+            {
+                if(isMove())
+                {
+                    move(chessboard.getSelectedSquare());
+                }
+            }
             chessboard.clearPossibleMoves();
         }
         chessboard.setSelectedSquare(this);
@@ -55,6 +62,29 @@ public class Square extends JPanel
             chessboard.showCaptureMoves(piece.getCaptureMoves(chessboard.getChessboardSquares()));
         }
         repaint();
+    }
+    
+    private void move(Square selectedSquare)
+    {
+        Piece selectedPiece = selectedSquare.getPiece();
+
+        this.setPiece(selectedPiece);
+        selectedSquare.setPiece(null, this);
+    }
+
+    private boolean isMove()
+    {
+        for(Square[] row : chessboard.getChessboardSquares())
+            {
+                for(Square s : row)
+                {
+                    if(!s.isPossibleMove) { continue; }
+
+                    if(s == this) { return true; }
+                }
+            }
+
+        return false;
     }
 
     public String getSquareId()
@@ -86,6 +116,17 @@ public class Square extends JPanel
     {
         this.piece = piece;
     }
+    
+    public void setPiece(Piece piece, Square newSquare)
+    {
+        if(this.piece != null)
+        {
+            this.piece.movePiece(newSquare);
+            this.piece.updateSquareLocation();
+        }
+
+        this.piece = piece;
+    }
 
     public void setSelected(boolean isSelected)
     {
@@ -111,11 +152,6 @@ public class Square extends JPanel
     {
         super.paintComponent(g);
         setBackground((row + col) % 2 == 0 ? lightColor : darkColor);
-
-        // if(piece != null)
-        // {
-        //     piece.draw(g, 5, 5, getWidth() - 10, getHeight() - 10);
-        // }
 
         if(isSelected || isPossibleMove && piece == null)
         {

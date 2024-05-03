@@ -86,4 +86,10 @@ public class Bishop extends Piece
     {
         return getPossibleMoves(board);
     }
+
+    @Override
+    public void updateSquareLocation()
+    {
+        this.square = super.getSquare();
+    }
 }

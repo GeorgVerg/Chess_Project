@@ -72,11 +72,10 @@ public class Knight extends Piece
         return moves;
     }
     
-    private boolean isValidMove(Square[][] board, int newRow, int newCol) {
-        // Check if the move is within the board boundaries
+    private boolean isValidMove(Square[][] board, int newRow, int newCol)
+    {
         if (newRow >= 0 && newRow < board.length && newCol >= 0 && newCol < board[0].length) {
             Square targetSquare = board[newRow][newCol];
-            // Check if the target square is empty or contains an opponent's piece
             if (targetSquare.getPiece() == null || targetSquare.getPiece().getColor() != this.color) {
                 return true;
             }
@@ -88,5 +87,11 @@ public class Knight extends Piece
     public ArrayList<Point> getCaptureMoves(Square[][] board)
     {
         return getPossibleMoves(board);
+    }
+
+    @Override
+    public void updateSquareLocation()
+    {
+        this.square = super.getSquare();
     }
 }

@@ -85,14 +85,12 @@ public class King extends Piece
             {
                 return isSquareUnderAttack(board, newRow, newCol, this.color) ? false : true;
             }
-            // return targetSquare.getPiece() == null || targetSquare.getPiece().getColor() != this.color;
         }
         return false;
     }
 
     private boolean isSquareUnderAttack(Square[][] board, int row, int col, Color kingColor)
     {
-        // Check for attacks from all directions and pieces (this is a simplified and not fully accurate model)
         for (Square[] squareRow : board)
         {
             for (Square square : squareRow)
@@ -118,5 +116,11 @@ public class King extends Piece
     public ArrayList<Point> getCaptureMoves(Square[][] board)
     {
         return getPossibleMoves(board);
+    }
+
+    @Override
+    public void updateSquareLocation()
+    {
+        this.square = super.getSquare();
     }
 }
