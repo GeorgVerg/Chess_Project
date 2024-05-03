@@ -67,7 +67,7 @@ public class King extends Piece
         for (int[] direction : directions) {
             int newRow = row + direction[0];
             int newCol = col + direction[1];
-            if (isValidMove(board, newRow, newCol) && !isSquareUnderAttack(board, newRow, newCol, color))
+            if (isValidMove(board, newRow, newCol))
             {
                 moves.add(new Point(newRow, newCol));
             }
