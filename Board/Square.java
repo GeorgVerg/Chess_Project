@@ -143,7 +143,7 @@ public class Square extends JPanel
     public void setCaptureMove(boolean captureMove)
     {
         isCaptureMove = captureMove;
-        if(isCaptureMove && isPossibleMove) { isCaptureMove = false; }
+        if(isCaptureMove && isPossibleMove) { isPossibleMove = false; }
         repaint();
     }
 
