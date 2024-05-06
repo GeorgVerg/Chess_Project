@@ -71,7 +71,7 @@ public class Pawn extends Piece
             }
         }
 
-        if((currentRow == 6 && color == Color.BLACK) || (currentRow == 1 && color == Color.WHITE))
+        if((currentRow == 7 && color == Color.BLACK) || (currentRow == 0 && color == Color.WHITE))
         {
             new LaunchPage(color, board[currentRow + direction][currentCol].getSquare(), square);
         }

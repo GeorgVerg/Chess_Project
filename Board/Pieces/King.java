@@ -115,7 +115,20 @@ public class King extends Piece
     @Override
     public ArrayList<Point> getCaptureMoves(Square[][] board)
     {
-        return getPossibleMoves(board);
+        ArrayList<Point> captureMoves = new ArrayList<>();
+        
+        for(Point move : getPossibleMoves(board))
+        {
+            int x = move.x;
+            int y = move.y;
+            Square s = board[x][y].getSquare();
+
+            if(s.getPiece() != null && s.getPiece().getColor() != this.color)
+            {
+                captureMoves.add(new Point(x, y));
+            }
+        }
+        return captureMoves;
     }
 
     @Override
