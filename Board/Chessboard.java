@@ -10,9 +10,13 @@ public class Chessboard extends JFrame {
 
     static Square[][] chessboardSquares = new Square[8][8];
     private Square selectedSquare;
-    
+    Boolean isWhite;
+    Boolean isWhiteTurn = true;
 
-    public Chessboard() {
+    public Chessboard(Boolean isWhite)
+    {
+        this.isWhite = isWhite;
+
         setTitle("Chess Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(BOARD_SIZE * SQUARE_SIZE, BOARD_SIZE * SQUARE_SIZE);
@@ -68,10 +72,6 @@ public class Chessboard extends JFrame {
                 }
             }
         }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(Chessboard::new);
     }
 
     public Square getSelectedSquare()
@@ -136,5 +136,15 @@ public class Chessboard extends JFrame {
     public Square[][] getChessboardSquares()
     {
         return chessboardSquares;
+    }
+
+    public boolean getIsWhiteTurn()
+    {
+        return isWhiteTurn;
+    }
+
+    public void toggleIsWhiteTurn()
+    {
+        this.isWhiteTurn = this.isWhiteTurn ? false : true;
     }
 }

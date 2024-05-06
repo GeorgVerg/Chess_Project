@@ -44,19 +44,25 @@ public class Square extends JPanel
 
     private void handleSquareSelection()
     {
-        if(chessboard.getSelectedSquare() != null)
+        Square selectedSquare = chessboard.getSelectedSquare();
+
+        if(selectedSquare != null)
         {
-            if(chessboard.getSelectedSquare().getPiece() != null)
+            if(selectedSquare.getPiece() != null && selectedSquare.getPiece().getColor() == (chessboard.getIsWhiteTurn() ? Color.WHITE : Color.BLACK))
             {
-                if(isMove())
+                if(isMove() || isCaptureMove())
                 {
-                    move(chessboard.getSelectedSquare());
+                    move(selectedSquare);
+                    chessboard.toggleIsWhiteTurn();
                 }
             }
             chessboard.clearPossibleMoves();
         }
+
         chessboard.setSelectedSquare(this);
-        if(piece != null)
+        selectedSquare = chessboard.getSelectedSquare();
+
+        if(piece != null && selectedSquare.getPiece().getColor() == (chessboard.getIsWhiteTurn() ? Color.WHITE : Color.BLACK))
         {
             chessboard.showPossibleMoves(piece.getPossibleMoves(chessboard.getChessboardSquares()));
             chessboard.showCaptureMoves(piece.getCaptureMoves(chessboard.getChessboardSquares()));
@@ -85,6 +91,21 @@ public class Square extends JPanel
             }
 
         return false;
+    }
+
+    private boolean isCaptureMove()
+    {
+        for(Square[] row : chessboard.getChessboardSquares())
+        {
+            for(Square s : row)
+            {
+                if(!s.isCaptureMove) { continue; }
+
+                if(s == this) { return true; }
+            }
+        }
+
+    return false;
     }
 
     public String getSquareId()
