@@ -125,19 +125,6 @@ public class Queen extends Piece
 
     public ArrayList<Point> getCaptureMovesForKing(Square[][] board)
     {
-        ArrayList<Point> captureMoves = new ArrayList<>();
-        
-        for(Point move : getPossibleMoves(board))
-        {
-            int x = move.x;
-            int y = move.y;
-            Square s = board[x][y].getSquare();
-
-            if(s.getPiece() != null && s.getPiece().getColor() != this.color)
-            {
-                captureMoves.add(new Point(x, y));
-            }
-        }
         return getPossibleMoves(board);
     }
 
