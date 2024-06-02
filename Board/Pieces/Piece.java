@@ -61,6 +61,8 @@ abstract public class Piece
     abstract public ArrayList<Point> getPossibleMoves(Square[][] board);
     
     abstract public ArrayList<Point> getCaptureMoves(Square[][] board);
+    
+    abstract public ArrayList<Point> getCaptureMovesForKing(Square[][] board);
 
     abstract public void updateSquareLocation();
 }

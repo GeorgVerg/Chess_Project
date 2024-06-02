@@ -123,6 +123,11 @@ public class Queen extends Piece
         return captureMoves;
     }
 
+    public ArrayList<Point> getCaptureMovesForKing(Square[][] board)
+    {
+        return getPossibleMoves(board);
+    }
+
     @Override
     public void updateSquareLocation()
     {

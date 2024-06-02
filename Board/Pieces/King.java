@@ -11,9 +11,7 @@ import Chess_Project.Board.Square;
 
 import java.awt.image.BufferedImage;
 
-
-public class King extends Piece
-{
+public class King extends Piece {
     String fileNameW = "Chess_Project/Board/Pieces/images/white/king.png";
     String fileNameB = "Chess_Project/Board/Pieces/images/black/king.png";
 
@@ -22,53 +20,45 @@ public class King extends Piece
 
     Square square;
 
-    public King(PieceType type, Color color, Square square)
-    {
+    public King(PieceType type, Color color, Square square) {
         super(type, color, square);
 
         this.color = color;
         this.square = square;
 
-        try 
-        {
+        try {
             image = ImageIO.read(new File(color == Color.WHITE ? fileNameW : fileNameB));
-        } catch(IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void draw(Graphics g, int x, int y, int width, int height)
-    {
-        if(image != null)
-        {
+    public void draw(Graphics g, int x, int y, int width, int height) {
+        if (image != null) {
             g.drawImage(image, x, y, width, height, null);
-        } else
-        {
+        } else {
             System.exit(0);
         }
     }
 
     @Override
-    public ArrayList<Point> getPossibleMoves(Square[][] board)
-    {
+    public ArrayList<Point> getPossibleMoves(Square[][] board) {
         ArrayList<Point> moves = new ArrayList<>();
         int row = square.getRow();
         int col = square.getCol();
 
         // Directions for King
         int[][] directions = {
-            { -1, -1 }, { -1, 0 }, { -1, 1 }, // Diagonal / up
-            { 0, -1 }, { 0, 1 },              // Straight
-            { 1, -1 }, { 1, 0 }, { 1, 1 }     // Diagonal / down
+                { -1, -1 }, { -1, 0 }, { -1, 1 }, // Diagonal / up
+                { 0, -1 }, { 0, 1 }, // Straight
+                { 1, -1 }, { 1, 0 }, { 1, 1 } // Diagonal / down
         };
 
         for (int[] direction : directions) {
             int newRow = row + direction[0];
             int newCol = col + direction[1];
-            if (isValidMove(board, newRow, newCol))
-            {
+            if (isValidMove(board, newRow, newCol)) {
                 moves.add(new Point(newRow, newCol));
             }
         }
@@ -76,35 +66,33 @@ public class King extends Piece
         return moves;
     }
 
-    private boolean isValidMove(Square[][] board, int newRow, int newCol)
-    {
-        if (newRow >= 0 && newRow < board.length && newCol >= 0 && newCol < board[0].length)
-        {
+    private boolean isValidMove(Square[][] board, int newRow, int newCol) {
+        if (newRow >= 0 && newRow < board.length && newCol >= 0 && newCol < board[0].length) {
             Square targetSquare = board[newRow][newCol];
-            if(targetSquare.getPiece() == null || targetSquare.getPiece().getColor() != this.color)
-            {
-                return isSquareUnderAttack(board, newRow, newCol, this.color) ? false : true;
+            if (targetSquare.getPiece() == null || targetSquare.getPiece().getColor() != this.color) {
+                return !isSquareUnderAttack(board, newRow, newCol, this.color);
             }
         }
         return false;
     }
 
-    private boolean isSquareUnderAttack(Square[][] board, int row, int col, Color kingColor)
-    {
-        for (Square[] squareRow : board)
-        {
-            for (Square square : squareRow)
-            {
+    private boolean isSquareUnderAttack(Square[][] board, int row, int col, Color kingColor) {
+        for (Square[] squareRow : board) {
+            for (Square square : squareRow) {
                 Piece piece = square.getPiece();
-                if (piece != null && piece.getColor() != kingColor)
-                {
-                    ArrayList<Point> attacks = piece.getCaptureMoves(board);
-                    for (Point attack : attacks)
-                    {
-                        if (attack.x == row && attack.y == col)
-                        {
+                if (piece != null && piece.getColor() != kingColor) {
+                    ArrayList<Point> attacks;
+                    if (piece.getType() == PieceType.KING) {
+                        King king = (King) piece;
+                        attacks = king.getCaptureMovesUnsafe(board);
+                    } else {
+                        attacks = piece.getCaptureMovesForKing(board);
+                    }
+                    for (Point attack : attacks) {
+                        if (attack.x == row && attack.y == col) {
                             return true;
                         }
+
                     }
                 }
             }
@@ -113,18 +101,15 @@ public class King extends Piece
     }
 
     @Override
-    public ArrayList<Point> getCaptureMoves(Square[][] board)
-    {
+    public ArrayList<Point> getCaptureMoves(Square[][] board) {
         ArrayList<Point> captureMoves = new ArrayList<>();
-        
-        for(Point move : getPossibleMoves(board))
-        {
+
+        for (Point move : getPossibleMoves(board)) {
             int x = move.x;
             int y = move.y;
             Square s = board[x][y].getSquare();
 
-            if(s.getPiece() != null && s.getPiece().getColor() != this.color)
-            {
+            if (s.getPiece() != null && s.getPiece().getColor() != this.color) {
                 captureMoves.add(new Point(x, y));
             }
         }
@@ -132,8 +117,45 @@ public class King extends Piece
     }
 
     @Override
-    public void updateSquareLocation()
-    {
+    public void updateSquareLocation() {
         this.square = super.getSquare();
+    }
+
+    public ArrayList<Point> getCaptureMovesUnsafe(Square[][] board) {
+        ArrayList<Point> moves = new ArrayList<>();
+        int row = square.getRow();
+        int col = square.getCol();
+
+        // Directions for King
+        int[][] directions = {
+                { -1, -1 }, { -1, 0 }, { -1, 1 }, // Diagonal / up
+                { 0, -1 }, { 0, 1 }, // Straight
+                { 1, -1 }, { 1, 0 }, { 1, 1 } // Diagonal / down
+        };
+
+        for (int[] direction : directions) {
+            int newRow = row + direction[0];
+            int newCol = col + direction[1];
+            if (isValidMoveUnsafe(board, newRow, newCol)) {
+                moves.add(new Point(newRow, newCol));
+            }
+        }
+
+        System.out.println(moves.size());
+        return moves;
+    }
+
+    public ArrayList<Point> getCaptureMovesForKing(Square[][] board) {
+        return getPossibleMoves(board);
+    }
+
+    private boolean isValidMoveUnsafe(Square[][] board, int newRow, int newCol) {
+        if (newRow >= 0 && newRow < board.length && newCol >= 0 && newCol < board[0].length) {
+            Square targetSquare = board[newRow][newCol];
+            if (targetSquare.getPiece() == null || targetSquare.getPiece().getColor() != this.color) {
+                return true;
+            }
+        }
+        return false;
     }
 }

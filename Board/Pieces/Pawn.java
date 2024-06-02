@@ -94,13 +94,17 @@ public class Pawn extends Piece
                 Piece targetPiece = board[currentRow + direction][targetCol].getPiece();
                 if(targetPiece != null && targetPiece.getColor() != color)
                 {
-                    board[currentRow + direction][targetCol].setCaptureMove(true);
                     captureMoves.add(new Point(currentRow + direction,targetCol));
                 }
             }
         }
 
         return captureMoves;
+    }
+
+    public ArrayList<Point> getCaptureMovesForKing(Square[][] board)
+    {
+        return getCaptureMoves(board);
     }
 
     @Override
