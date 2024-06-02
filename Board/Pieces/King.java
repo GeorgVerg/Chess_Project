@@ -70,9 +70,8 @@ public class King extends Piece {
         if (newRow >= 0 && newRow < board.length && newCol >= 0 && newCol < board[0].length) {
             Square targetSquare = board[newRow][newCol];
             if (targetSquare.getPiece() == null || targetSquare.getPiece().getColor() != this.color) {
-                return isSquareUnderAttack(board, newRow, newCol, this.color) ? false : true;
+                return !isSquareUnderAttack(board, newRow, newCol, this.color);
             }
-
         }
         return false;
     }
@@ -82,8 +81,6 @@ public class King extends Piece {
             for (Square square : squareRow) {
                 Piece piece = square.getPiece();
                 if (piece != null && piece.getColor() != kingColor) {
-                    // System.out.println("This square: " + board[row][col].getSquareId() + " should
-                    // not be valid");
                     ArrayList<Point> attacks;
                     if (piece.getType() == PieceType.KING) {
                         King king = (King) piece;
@@ -144,6 +141,7 @@ public class King extends Piece {
             }
         }
 
+        System.out.println(moves.size());
         return moves;
     }
 
