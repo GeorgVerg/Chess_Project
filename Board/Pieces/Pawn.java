@@ -103,6 +103,11 @@ public class Pawn extends Piece
         return captureMoves;
     }
 
+    public ArrayList<Point> getCaptureMovesForKing(Square[][] board)
+    {
+        return getCaptureMoves(board);
+    }
+
     @Override
     public void updateSquareLocation()
     {
