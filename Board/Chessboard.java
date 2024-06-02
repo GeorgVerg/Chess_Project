@@ -145,6 +145,6 @@ public class Chessboard extends JFrame {
 
     public void toggleIsWhiteTurn()
     {
-        this.isWhiteTurn = this.isWhiteTurn ? false : true;
+        this.isWhiteTurn = !this.isWhiteTurn;
     }
 }
