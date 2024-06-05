@@ -1,9 +1,11 @@
 package Chess_Project.Board;
 
 import Chess_Project.Board.Pieces.*;
+import Chess_Project.Game.EndGame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Chessboard extends JFrame {
     private static final int BOARD_SIZE = 8;
@@ -14,6 +16,8 @@ public class Chessboard extends JFrame {
     Boolean isWhite;
     Boolean isWhiteTurn = true;
 
+    JPanel boardJPanel;
+
     public Chessboard(Boolean isWhite) {
         this.isWhite = isWhite;
 
@@ -23,6 +27,7 @@ public class Chessboard extends JFrame {
         setResizable(false);
 
         JPanel boardPanel = new JPanel(new GridLayout(BOARD_SIZE, BOARD_SIZE));
+        boardJPanel = boardPanel;
         getContentPane().add(boardPanel);
 
         for (int row = 0; row < BOARD_SIZE; row++) {
@@ -118,13 +123,13 @@ public class Chessboard extends JFrame {
         return isWhiteTurn;
     }
 
-    public boolean kingHasMoves() {
-        if (isWhiteTurn) {
-            Piece king;
+    public void checkGameState() {
+            Piece king = null;
             for (Square[] s : chessboardSquares) {
                 for (Square i : s) {
                     Piece piece = i.getPiece();
-                    if (piece.getType() == PieceType.KING && piece.getColor() == Color.WHITE) {
+                    if(piece == null) { continue; }
+                    if (piece.getType() == PieceType.KING && piece.getColor() == (isWhiteTurn ? Color.WHITE : Color.BLACK)) {
                         king = piece;
                     }
                 }
@@ -135,20 +140,21 @@ public class Chessboard extends JFrame {
             }
             if (king.getPossibleMoves(chessboardSquares).isEmpty()) {
                 if (kingIsAttacked(king)) {
-                    endGame();
+                    new EndGame(boardJPanel);
                 }
-                return false;
             }
-
-        }
-        return true;
     }
 
     public boolean kingIsAttacked(Piece king) {
         for (Square[] s : chessboardSquares) {
             for (Square i : s) {
                 Piece piece = i.getPiece();
+                if(piece == null) { continue; }
                 ArrayList<Point> captureMoves = piece.getCaptureMoves(chessboardSquares);
+                if(!captureMoves.isEmpty())
+                {
+                    System.out.println(piece.getType().toString() + " " + piece.getColor().toString() + " has capture moves ");
+                }
                 for (Point p : captureMoves) {
                     int col = p.x;
                     int row = p.y;
@@ -167,5 +173,6 @@ public class Chessboard extends JFrame {
 
     public void toggleIsWhiteTurn() {
         this.isWhiteTurn = !this.isWhiteTurn;
+        checkGameState();
     }
 }
