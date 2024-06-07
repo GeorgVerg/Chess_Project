@@ -1,5 +1,7 @@
 package Chess_Project.Board;
 import Chess_Project.Board.Pieces.Piece;
+import Chess_Project.Board.Pieces.PieceType;
+import Chess_Project.Game.errorMessage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -76,6 +78,30 @@ public class Square extends JPanel
 
         this.setPiece(selectedPiece);
         selectedSquare.setPiece(null, this);
+
+
+        Piece king = null;
+        Square[][] chessboardSquares = chessboard.getChessboardSquares();
+        for (Square[] s : chessboardSquares) {
+            for (Square i : s) {
+                Piece piece = i.getPiece();
+                if(piece == null) { continue; }
+                if (piece.getType() == PieceType.KING && piece.getColor() == (chessboard.isWhiteTurn ? Color.WHITE : Color.BLACK)) {
+                    king = piece;
+                }
+            }
+        }
+
+        if(chessboard.kingIsAttacked(king))
+        {
+            new errorMessage(chessboard, chessboard.getChessJPanel());
+
+            this.setPiece(null);
+            selectedSquare.setPiece(selectedPiece);
+            selectedSquare.setPiece(selectedPiece, selectedSquare);
+            chessboard.toggleIsWhiteTurn();
+        }
+
     }
 
     private boolean isMove()

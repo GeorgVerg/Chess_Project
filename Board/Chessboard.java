@@ -115,8 +115,35 @@ public class Chessboard extends JFrame {
         }
     }
 
+    // public void showForcedPossibleMoves() {
+    //     ArrayList<Point> forcedPossibleMoves = new ArrayList<>();
+    //     for(Square[] squares : chessboardSquares)
+    //     {
+    //         for(Square s : squares)
+    //         {
+    //             if(isWhiteTurn)
+    //             {
+    //                 if(s.getPiece().getColor() != Color.WHITE) { continue; }
+
+    //                 for(Point p : s.getPiece().getPossibleMoves(chessboardSquares))
+    //                 {
+    //                     forcedPossibleMoves.add(p);
+    //                 }
+    //             } else
+    //             {
+
+    //             }
+    //         }
+    //     }
+    // }
+
     public Square[][] getChessboardSquares() {
         return chessboardSquares;
+    }
+
+    public JPanel getChessJPanel()
+    {
+        return boardJPanel;
     }
 
     public boolean getIsWhiteTurn() {
@@ -135,13 +162,9 @@ public class Chessboard extends JFrame {
                 }
             }
 
-            if (king == null) {
-                System.err.println("Theres no king on the board");
-            }
             if (king.getPossibleMoves(chessboardSquares).isEmpty()) {
                 if (kingIsAttacked(king)) {
                     new EndGame(boardJPanel);
-                    System.out.println("THere should be a new screen");
                 }
             }
     }
@@ -152,18 +175,12 @@ public class Chessboard extends JFrame {
                 Piece piece = i.getPiece();
                 if(piece == null) { continue; }
                 ArrayList<Point> captureMoves = piece.getCaptureMoves(chessboardSquares);
-                if(!captureMoves.isEmpty())
-                {
-                    // System.out.println(piece.getType().toString() + " " + piece.getColor().toString() + " has capture moves ");
-                }
                 for (Point p : captureMoves) {
                     int row = p.x;
                     int col = p.y;
 
                     int kingCol = king.getSquare().getCol();
                     int kingRow = king.getSquare().getRow();
-
-                    System.out.println("Capture move by " + piece.getType() + " square id: " + chessboardSquares[row][col].getSquareId() + " The oponents king is at " + chessboardSquares[kingRow][kingCol].getSquareId());
  
                     if (col == kingCol && row == kingRow) {
                         return true;
