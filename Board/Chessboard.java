@@ -141,6 +141,7 @@ public class Chessboard extends JFrame {
             if (king.getPossibleMoves(chessboardSquares).isEmpty()) {
                 if (kingIsAttacked(king)) {
                     new EndGame(boardJPanel);
+                    System.out.println("THere should be a new screen");
                 }
             }
     }
@@ -153,15 +154,17 @@ public class Chessboard extends JFrame {
                 ArrayList<Point> captureMoves = piece.getCaptureMoves(chessboardSquares);
                 if(!captureMoves.isEmpty())
                 {
-                    System.out.println(piece.getType().toString() + " " + piece.getColor().toString() + " has capture moves ");
+                    // System.out.println(piece.getType().toString() + " " + piece.getColor().toString() + " has capture moves ");
                 }
                 for (Point p : captureMoves) {
-                    int col = p.x;
-                    int row = p.y;
+                    int row = p.x;
+                    int col = p.y;
 
                     int kingCol = king.getSquare().getCol();
                     int kingRow = king.getSquare().getRow();
 
+                    System.out.println("Capture move by " + piece.getType() + " square id: " + chessboardSquares[row][col].getSquareId() + " The oponents king is at " + chessboardSquares[kingRow][kingCol].getSquareId());
+ 
                     if (col == kingCol && row == kingRow) {
                         return true;
                     }

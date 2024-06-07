@@ -3,8 +3,6 @@ package Chess_Project.Game;
 import javax.swing.*;
 import java.awt.*;
 
-import Chess_Project.Board.Chessboard;
-
 public class EndGame extends JFrame
 {
     JPanel chessFrame;
@@ -35,6 +33,7 @@ public class EndGame extends JFrame
 
         playAgainButton.addActionListener(e -> {
             new PickSide();
+            SwingUtilities.getWindowAncestor((Component)chessFrame).dispose();
             SwingUtilities.getWindowAncestor((Component)e.getSource()).dispose();
         });
 
@@ -64,10 +63,5 @@ public class EndGame extends JFrame
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createRaisedBevelBorder());
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
-    }
-
-    public static void main(String[] args)
-    {
-        SwingUtilities.invokeLater(PickSide::new);
     }
 }
